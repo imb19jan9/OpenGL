@@ -1,40 +1,59 @@
 #include <QtWidgets/QApplication>
 #include <QOpenGLWidget>
 #include <QSurfaceFormat>
-#include <iostream>
 #include <QOpenGLFunctions>
 #include <QOpenGLContext>
+
+#include <string>
+#include <iostream>
 #include <fstream>
-#include <sstream>
+
+#define ASSERT(x) if(!(x)) __debugbreak();
+#define GLCall(x) GLClearError();\
+	x;\
+	ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+void GLClearError() {
+	while (glGetError() != GL_NO_ERROR);
+}
+
+bool GLLogCall(const char* function, const char* file, int line) {
+	if (GLenum error = glGetError()) {
+		std::cout << "[OpenGL Error] (" << error << ") : " << function << ", "
+			<< file << " : " << line << std::endl;
+		return false;
+	}
+
+	return true;
+}
 
 std::string LoadShader(const std::string& filepath) {
 	std::ifstream stream(filepath);
 
-	std::stringstream shader;
-	std::string line;
+	std::string whole, line;
 	while (getline(stream, line)) {
-		shader << line << '\n';
+		whole = whole + line + '\n';
 	}
 
-	return shader.str();
+	return whole;
 }
 
 unsigned int CompileShader(unsigned int type, const std::string& source) {
 	QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
-	unsigned int id = f->glCreateShader(type);
+	GLCall(unsigned int id = f->glCreateShader(type));
 	const char* src = source.c_str();
-	f->glShaderSource(id, 1, &src, 0);
-	f->glCompileShader(id);
+	GLCall(f->glShaderSource(id, 1, &src, 0));
+	GLCall(f->glCompileShader(id));
 
 	int result;
-	f->glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+	GLCall(f->glGetShaderiv(id, GL_COMPILE_STATUS, &result));
 	if (result == GL_FALSE) {
 		int length;
-		f->glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+		GLCall(f->glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
 
 		char *message = new char[length * sizeof(char)];
-		f->glGetShaderInfoLog(id, length, &length, message);
+		GLCall(f->glGetShaderInfoLog(id, length, &length, message));
 
 		std::cout << "Failed to compile " <<
 			(type == GL_VERTEX_SHADER ? "vertex " : "fragment ") <<
@@ -52,17 +71,17 @@ unsigned int CompileShader(unsigned int type, const std::string& source) {
 unsigned int CreateShaderProgram(const std::string& vertexShader, const std::string& fragmentShader) {
 	QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
-	unsigned int program = f->glCreateProgram();
+	GLCall(unsigned int program = f->glCreateProgram());
 	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
 	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
-	f->glAttachShader(program, vs);
-	f->glAttachShader(program, fs);
-	f->glLinkProgram(program);
-	f->glValidateProgram(program);
+	GLCall(f->glAttachShader(program, vs));
+	GLCall(f->glAttachShader(program, fs));
+	GLCall(f->glLinkProgram(program));
+	GLCall(f->glValidateProgram(program));
 
-	f->glDeleteShader(vs);
-	f->glDeleteShader(fs);
+	GLCall(f->glDeleteShader(vs));
+	GLCall(f->glDeleteShader(fs));
 
 	return program;
 }
@@ -91,9 +110,9 @@ public:
 	~OpenGL() {
 		if (initialized) {
 			QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-			f->glDeleteBuffers(1, &vbo);
-			f->glDeleteBuffers(1, &ibo);
-			f->glDeleteProgram(program);
+			GLCall(f->glDeleteBuffers(1, &vbo));
+			GLCall(f->glDeleteBuffers(1, &ibo));
+			GLCall(f->glDeleteProgram(program));
 		}
 	}
 
@@ -101,34 +120,34 @@ private:
 	void initializeGL() {
 		QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
-		std::cout << f->glGetString(GL_VERSION) << std::endl;
+		GLCall(std::cout << f->glGetString(GL_VERSION) << std::endl);
 
 		std::string vertexShader = LoadShader("res/shaders/Basic.vertex");
 		std::string fragmentShader = LoadShader("res/shaders/Basic.fragment");
 
 		program = CreateShaderProgram(vertexShader, fragmentShader);
 
-		f->glGenBuffers(1, &vbo);
-		f->glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		f->glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
+		GLCall(f->glGenBuffers(1, &vbo));
+		GLCall(f->glBindBuffer(GL_ARRAY_BUFFER, vbo));
+		GLCall(f->glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW));
 
-		f->glEnableVertexAttribArray(0);
-		f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+		GLCall(f->glEnableVertexAttribArray(0));
+		GLCall(f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
 
-		f->glGenBuffers(1, &ibo);
-		f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		f->glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW);
+		GLCall(f->glGenBuffers(1, &ibo));
+		GLCall(f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+		GLCall(f->glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW));
 	}
 
 	void paintGL() {
 		QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
-		f->glClear(GL_COLOR_BUFFER_BIT);
+		GLCall(f->glClear(GL_COLOR_BUFFER_BIT));
 
-		f->glUseProgram(program);
-		f->glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		GLCall(f->glUseProgram(program));
+		GLCall(f->glBindBuffer(GL_ARRAY_BUFFER, vbo));
+		GLCall(f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+		GLCall(f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 	}
 };
 
