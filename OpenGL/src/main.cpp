@@ -4,9 +4,22 @@
 #include <iostream>
 #include <QOpenGLFunctions>
 #include <QOpenGLContext>
+#include <fstream>
+#include <sstream>
 
-unsigned int CompileShader(unsigned int type, const std::string& source)
-{
+std::string LoadShader(const std::string& filepath) {
+	std::ifstream stream(filepath);
+
+	std::stringstream shader;
+	std::string line;
+	while (getline(stream, line)) {
+		shader << line << '\n';
+	}
+
+	return shader.str();
+}
+
+unsigned int CompileShader(unsigned int type, const std::string& source) {
 	QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
 	unsigned int id = f->glCreateShader(type);
@@ -82,22 +95,8 @@ private:
 
 		std::cout << f->glGetString(GL_VERSION) << std::endl;
 
-		std::string vertexShader =
-			"#version 330 core\n"
-			"\n"
-			"layout(location = 0) in vec4 position;\n"
-			"\n"
-			"void main() {\n"
-			"  gl_Position = position;\n"
-			"}\n";
-		std::string fragmentShader =
-			"#version 330 core\n"
-			"\n"
-			"out vec4 color;\n"
-			"\n"
-			"void main() {\n"
-			"  color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-			"}\n";
+		std::string vertexShader = LoadShader("res/shaders/Basic.vertex");
+		std::string fragmentShader = LoadShader("res/shaders/Basic.fragment");
 
 		program = CreateShaderProgram(vertexShader, fragmentShader);
 
@@ -120,8 +119,7 @@ private:
 	}
 };
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 
 	OpenGL openGL;
