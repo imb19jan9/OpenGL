@@ -69,13 +69,20 @@ unsigned int CreateShaderProgram(const std::string& vertexShader, const std::str
 
 class OpenGL : public QOpenGLWidget {
 private:
-	float positions[6] = {
+	float positions[8] = {
 		-0.5f, -0.5f,
 		 0.5f, -0.5f,
-		 0.0f,  0.5f,
+		 0.5f,  0.5f,
+		-0.5f,  0.5f
+	};
+
+	unsigned int indices[6] = {
+		0, 1, 2,
+		2, 3, 0
 	};
 
 	unsigned int vbo;
+	unsigned int ibo;
 	unsigned int program;
 	bool initialized;
 	
@@ -85,6 +92,7 @@ public:
 		if (initialized) {
 			QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 			f->glDeleteBuffers(1, &vbo);
+			f->glDeleteBuffers(1, &ibo);
 			f->glDeleteProgram(program);
 		}
 	}
@@ -102,10 +110,14 @@ private:
 
 		f->glGenBuffers(1, &vbo);
 		f->glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		f->glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
-		
+		f->glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
+
 		f->glEnableVertexAttribArray(0);
 		f->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
+		f->glGenBuffers(1, &ibo);
+		f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		f->glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW);
 	}
 
 	void paintGL() {
@@ -115,7 +127,8 @@ private:
 
 		f->glUseProgram(program);
 		f->glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		f->glDrawArrays(GL_TRIANGLES, 0, 3);
+		f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}
 };
 
