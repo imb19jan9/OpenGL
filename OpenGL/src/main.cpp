@@ -103,6 +103,7 @@ private:
 	unsigned int vbo;
 	unsigned int ibo;
 	unsigned int program;
+	int location;
 	bool initialized;
 	
 public:
@@ -126,6 +127,11 @@ private:
 		std::string fragmentShader = LoadShader("res/shaders/Basic.fragment");
 
 		program = CreateShaderProgram(vertexShader, fragmentShader);
+		
+		GLCall(f->glUseProgram(program));
+		GLCall(location = f->glGetUniformLocation(program, "u_Color"));
+		ASSERT(location != -1);
+		GLCall(f->glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
 
 		GLCall(f->glGenBuffers(1, &vbo));
 		GLCall(f->glBindBuffer(GL_ARRAY_BUFFER, vbo));
@@ -144,7 +150,23 @@ private:
 
 		GLCall(f->glClear(GL_COLOR_BUFFER_BIT));
 
+		static float r = 0.0f;
+		static float increment = 0.05f;
+
+		r += increment;
+		if (r > 1.0f) {
+			r = 1.0f;
+			increment = -0.05f;
+		}
+		else if (r < 0.0f) {
+			r = 0.0f;
+			increment = 0.05f;
+		}
+			
+		std::cout << "r : " << r << std::endl;
 		GLCall(f->glUseProgram(program));
+		GLCall(f->glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+
 		GLCall(f->glBindBuffer(GL_ARRAY_BUFFER, vbo));
 		GLCall(f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
 		GLCall(f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
