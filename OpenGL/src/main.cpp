@@ -11,14 +11,15 @@
 #include "ShaderProgram.h"
 #include "VBOLayout.h"
 #include "Renderer.h"
+#include "Texture.h"
 
 class OpenGL : public QOpenGLWidget {
 private:
-	float positions[8] = {
-		-0.5f, -0.5f,
-		 0.5f, -0.5f,
-		 0.5f,  0.5f,
-		-0.5f,  0.5f
+	float positions[16] = {
+		-0.5f, -0.5f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 1.0f, 0.0f,
+		 0.5f,  0.5f, 1.0f, 1.0f,
+		-0.5f,  0.5f, 0.0f, 1.0f
 	};
 
 	unsigned int indices[6] = {
@@ -31,6 +32,7 @@ private:
 	IBO* ibo;
 	ShaderProgram *program;
 	Renderer renderer;
+	Texture *texture;
 	
 public:
 	OpenGL() : vao(nullptr), vbo(nullptr), ibo(nullptr), program(nullptr) {}
@@ -41,6 +43,7 @@ public:
 		delete vbo;
 		delete ibo;
 		delete program;
+		delete texture;
 	}
 
 private:
@@ -50,14 +53,19 @@ private:
 		std::cout << f->glGetString(GL_VERSION) << std::endl;
 
 		program = new ShaderProgram("res/shaders/Basic.vertex", "res/shaders/Basic.fragment");
-		
+		program->Bind();
+		program->SetUniform1i("u_Texture", 0);
+
+		texture = new Texture("res/textures/hccl_logo.png");
+
 		vao = new VAO;
 		vao->Bind();
 		
-		vbo = new VBO(positions, 8 * sizeof(float));
+		vbo = new VBO(positions, 16 * sizeof(float));
 		vbo->Bind();
 
 		VBOLayout layout;
+		layout.Push<float>(2);
 		layout.Push<float>(2);
 		vao->AddBuffer(*vbo, layout);
 
@@ -69,23 +77,7 @@ private:
 
 		renderer.Clear();
 
-		static float r = 0.0f;
-		static float increment = 0.05f;
-
-		r += increment;
-		if (r > 1.0f) {
-			r = 1.0f;
-			increment = -0.05f;
-		}
-		else if (r < 0.0f) {
-			r = 0.0f;
-			increment = 0.05f;
-		}
-			
-		std::cout << "r : " << r << std::endl;
-		program->Bind();
-		program->SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-
+		texture->Bind();
 		renderer.Draw(*vao, *ibo, *program);
 	}
 };

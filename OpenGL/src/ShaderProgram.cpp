@@ -30,11 +30,15 @@ void ShaderProgram::Unbind() const
 	f->glUseProgram(0);
 }
 
+void ShaderProgram::SetUniform1i(const std::string & name_, int value_)
+{
+	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	f->glUniform1i(GetUniformLocation(name_), value_);
+}
+
 void ShaderProgram::SetUniform4f(const std::string & name_, float v0_, float v1_, float v2_, float v3_)
 {
 	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-	f->glUseProgram(id);
-
 	f->glUniform4f(GetUniformLocation(name_), v0_, v1_, v2_, v3_);
 }
 
@@ -95,7 +99,7 @@ unsigned int ShaderProgram::CreateShaderProgram(std::string vs_, std::string fs_
 	return program;
 }
 
-unsigned int ShaderProgram::GetUniformLocation(const std::string & name_)
+int ShaderProgram::GetUniformLocation(const std::string & name_)
 {
 	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
