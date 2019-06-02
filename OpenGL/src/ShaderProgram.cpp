@@ -42,6 +42,12 @@ void ShaderProgram::SetUniform4f(const std::string & name_, float v0_, float v1_
 	f->glUniform4f(GetUniformLocation(name_), v0_, v1_, v2_, v3_);
 }
 
+void ShaderProgram::SetUniformMat4f(const std::string & name_, float * mat_)
+{
+	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	f->glUniformMatrix4fv(GetUniformLocation(name_), 1, GL_FALSE, mat_);
+}
+
 std::string ShaderProgram::LoadShader(const std::string & filepath_)
 {
 	std::ifstream stream(filepath_);

@@ -4,6 +4,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLContext>
 #include <iostream>
+#include <QMatrix4x4>
 
 #include "VAO.h"
 #include "VBO.h"
@@ -55,6 +56,13 @@ private:
 		program = new ShaderProgram("res/shaders/Basic.vertex", "res/shaders/Basic.fragment");
 		program->Bind();
 		program->SetUniform1i("u_Texture", 0);
+		
+		QMatrix4x4 model, view, proj, mvp;
+		model.translate(2, 0, 0);
+		view.translate(-1.5, 0, 0);
+		proj.ortho(-2.0, 2.0, -1.5, 1.5, -1.0, 1.0);
+		mvp = proj * view * model;
+		program->SetUniformMat4f("u_MVP", mvp.data());
 
 		texture = new Texture("res/textures/hccl_logo.png");
 
@@ -90,6 +98,7 @@ int main(int argc, char *argv[]) {
 	format.setProfile(QSurfaceFormat::CoreProfile);
 
 	OpenGL openGL;
+	openGL.resize(800, 600);
 	openGL.setFormat(format);
 	openGL.show();
 

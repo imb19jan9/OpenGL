@@ -17,6 +17,7 @@ public:
 
 	void SetUniform1i(const std::string& name_, int value_);
 	void SetUniform4f(const std::string& name_, float v0_, float v1_, float v2_, float v3_);
+	void SetUniformMat4f(const std::string& name_, float* mat_);
 
 private:
 	std::string LoadShader(const std::string& filepath_);
