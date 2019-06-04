@@ -1,6 +1,7 @@
 #include "TestMenu.h"
 
 #include "ClearColor.h"
+#include "Texture2D.h"
 
 TestMenu::TestMenu(QWidget *parent)
 	: QWidget(parent),
@@ -9,6 +10,7 @@ TestMenu::TestMenu(QWidget *parent)
 	ui.setupUi(this);
 
 	RegisterTest<ClearColor>("Clear Color");
+	RegisterTest<Texture2D>("Texture 2D");
 }
 
 TestMenu::~TestMenu()

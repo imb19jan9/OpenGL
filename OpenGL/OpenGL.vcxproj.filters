@@ -51,6 +51,9 @@
     <ClCompile Include="src\Test\ClearColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\Texture2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IBO.h">
@@ -79,12 +82,18 @@
     <QtMoc Include="src\Test\ClearColor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\Test\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\Test\TestMenu.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\Test\ClearColor.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\Test\Texture2D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

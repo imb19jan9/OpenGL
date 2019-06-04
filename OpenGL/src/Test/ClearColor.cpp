@@ -21,7 +21,7 @@ ClearColor::~ClearColor()
 	delete ui;
 }
 
-void Screen::SetClearColor(float r_, float g_, float b_, float a_)
+void ClearColor::Screen::SetClearColor(float r_, float g_, float b_, float a_)
 {
 	r = r_;
 	g = g_;
@@ -29,7 +29,7 @@ void Screen::SetClearColor(float r_, float g_, float b_, float a_)
 	a = a_;
 }
 
-void Screen::paintGL()
+void ClearColor::Screen::paintGL()
 {
 	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->
 		versionFunctions<QOpenGLFunctions_3_3_Core>();

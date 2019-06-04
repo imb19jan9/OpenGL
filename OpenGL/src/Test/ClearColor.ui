@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="Screen" name="openGLWidget">
+    <widget class="ClearColor::Screen" name="openGLWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -85,7 +85,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Screen</class>
+   <class>ClearColor::Screen</class>
    <extends>QOpenGLWidget</extends>
    <header>ClearColor.h</header>
   </customwidget>
