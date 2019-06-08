@@ -1,6 +1,6 @@
 #include "Texture2D.h"
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 
 #include "ui_Texture2D.h"
 #include "VBOLayout.h"
@@ -53,8 +53,8 @@ void Texture2D::Screen::initializeGL()
 
 void Texture2D::Screen::paintGL()
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->
-		versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
+		versionFunctions<QOpenGLFunctions_4_5_Core>();
 
 	f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	f->glClear(GL_COLOR_BUFFER_BIT);
@@ -63,5 +63,7 @@ void Texture2D::Screen::paintGL()
 	program->Bind();
 	program->SetUniformMat4f("u_MVP", mvp.data());
 
+	vao->Bind();
+	ibo->Bind();
 	f->glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, 0);
 }

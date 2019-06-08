@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 
 struct VBElement {
 	unsigned int type;

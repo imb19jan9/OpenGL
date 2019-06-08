@@ -54,6 +54,15 @@
     <ClCompile Include="src\Test\Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\LDNI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TriMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IBO.h">
@@ -74,6 +83,12 @@
     <ClInclude Include="src\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\TriMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\Test\TestMenu.h">
@@ -83,6 +98,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\Test\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Test\LDNI.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -96,5 +114,11 @@
     <QtUic Include="src\Test\Texture2D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\Test\LDNI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

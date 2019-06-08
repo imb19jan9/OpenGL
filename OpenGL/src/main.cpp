@@ -1,6 +1,6 @@
 #include <QtWidgets/QApplication>
 #include <QSurfaceFormat>
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 #include <QOpenGLContext>
 #include <iostream>
 
@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 
 	QSurfaceFormat format;
-	format.setVersion(3, 3);
+	format.setVersion(4, 5);
 	format.setProfile(QSurfaceFormat::CoreProfile);
 	QSurfaceFormat::setDefaultFormat(format);
 

@@ -1,22 +1,22 @@
 #include "VAO.h"
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 
 VAO::VAO()
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glGenVertexArrays(1, &id);
 }
 
 VAO::~VAO()
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glDeleteVertexArrays(1, &id);
 }
 
 void VAO::AddBuffer(const VBO & vbo_, const VBOLayout & layout_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	Bind();
 	vbo_.Bind();
 
@@ -33,12 +33,12 @@ void VAO::AddBuffer(const VBO & vbo_, const VBOLayout & layout_)
 
 void VAO::Bind() const
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glBindVertexArray(id);
 }
 
 void VAO::Unbind() const
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glBindVertexArray(0);
 }

@@ -1,6 +1,6 @@
 #include "ShaderProgram.h"
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 #include <fstream>
 #include <iostream>
 
@@ -14,37 +14,37 @@ ShaderProgram::ShaderProgram(const std::string & vsFilePath_, const std::string 
 
 ShaderProgram::~ShaderProgram()
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glDeleteProgram(id);
 }
 
 void ShaderProgram::Bind() const
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glUseProgram(id);
 }
 
 void ShaderProgram::Unbind() const
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glUseProgram(0);
 }
 
 void ShaderProgram::SetUniform1i(const std::string & name_, int value_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glUniform1i(GetUniformLocation(name_), value_);
 }
 
 void ShaderProgram::SetUniform4f(const std::string & name_, float v0_, float v1_, float v2_, float v3_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glUniform4f(GetUniformLocation(name_), v0_, v1_, v2_, v3_);
 }
 
 void ShaderProgram::SetUniformMat4f(const std::string & name_, float * mat_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glUniformMatrix4fv(GetUniformLocation(name_), 1, GL_FALSE, mat_);
 }
 
@@ -62,7 +62,7 @@ std::string ShaderProgram::LoadShader(const std::string & filepath_)
 
 unsigned int ShaderProgram::CompileShader(unsigned int type_, const std::string & source_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	unsigned int id = f->glCreateShader(type_);
 	const char* src = source_.c_str();
 	f->glShaderSource(id, 1, &src, 0);
@@ -90,7 +90,7 @@ unsigned int ShaderProgram::CompileShader(unsigned int type_, const std::string 
 
 unsigned int ShaderProgram::CreateShaderProgram(std::string vs_, std::string fs_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 	unsigned int program = f->glCreateProgram();
 	unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, vs_);
 	unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fs_);
@@ -107,7 +107,7 @@ unsigned int ShaderProgram::CreateShaderProgram(std::string vs_, std::string fs_
 
 int ShaderProgram::GetUniformLocation(const std::string & name_)
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>();
 
 	if (uniformLocationCache.find(name_) != uniformLocationCache.end())
 		return uniformLocationCache[name_];

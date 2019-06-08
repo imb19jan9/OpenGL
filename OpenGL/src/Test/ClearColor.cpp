@@ -2,7 +2,7 @@
 
 #include "ui_ClearColor.h"
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 
 ClearColor::ClearColor(QWidget *menu_)
 	: menu(menu_)
@@ -31,8 +31,8 @@ void ClearColor::Screen::SetClearColor(float r_, float g_, float b_, float a_)
 
 void ClearColor::Screen::paintGL()
 {
-	QOpenGLFunctions_3_3_Core *f = QOpenGLContext::currentContext()->
-		versionFunctions<QOpenGLFunctions_3_3_Core>();
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
+		versionFunctions<QOpenGLFunctions_4_5_Core>();
 
 	f->glClearColor(r, g, b, a);
 	f->glClear(GL_COLOR_BUFFER_BIT);
