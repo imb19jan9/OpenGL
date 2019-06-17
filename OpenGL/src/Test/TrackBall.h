@@ -10,9 +10,38 @@
 #include "IBO.h"
 #include "ShaderProgram.h"
 #include "Sphere.h"
-#include "CheckerBoard.h"
+#include "Line.h"
 
 namespace Ui { class TrackBall; };
+
+class Tetrahedron
+{
+private:
+	VAO* vao;
+	VBO* vbo;
+	IBO* ibo;
+
+	ShaderProgram *prog;
+
+	TriMesh mesh;
+
+	float scaleSize;
+	QVector3D pos;
+	QVector4D color;
+
+public:
+	Tetrahedron(float scaleSize_);
+	~Tetrahedron();
+
+	void Init();
+	void Draw(QMatrix4x4 view_, QMatrix4x4 proj_);
+
+	inline void SetPosition(QVector3D pos_) { pos = pos_; }
+	inline void SetColor(QVector4D color_) { color = color_; }
+
+private:
+	void Create();
+};
 
 class TrackBall : public QWidget
 {
@@ -27,10 +56,14 @@ public:
 		QMatrix4x4 view, proj;
 		QQuaternion prevQ, currQ;
 
+		Tetrahedron tetra;
 		Sphere sphere;
-		CheckerBoard board;
+		float radius;
 
 		QPoint clicked, cursor;
+		Sphere moving, fixed;
+		Line toMoving, toFixed;
+		bool dragging;
 
 		QVector3D pivot;
 		float camDistance;
@@ -44,6 +77,7 @@ public:
 		void paintGL();
 		void mousePressEvent(QMouseEvent* e_);
 		void mouseMoveEvent(QMouseEvent* e_);
+		void mouseReleaseEvent(QMouseEvent* e_);
 
 		QVector3D OnTrackBall(QPoint p_);
 	};

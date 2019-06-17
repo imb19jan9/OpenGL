@@ -38,15 +38,17 @@ Sphere::~Sphere()
 void Sphere::Init()
 {
 	vao = new VAO;
+
 	vbo = new VBO(mesh.GetVertices().data(), sizeof(float)*mesh.GetVertices().size());
 	ibo = new IBO(mesh.GetIndices().data(), mesh.GetIndices().size());
 
 	VBOLayout layout;
 	layout.Push<float>(3);
+	layout.Push<float>(3);
 	vao->AddBuffer(*vbo, layout);
 
-	prog = new ShaderProgram("res/shaders/BasicColor.vertex",
-		"res/shaders/BasicColor.fragment");
+	prog = new ShaderProgram("res/shaders/Phong.vertex",
+		"res/shaders/Phong.fragment");
 }
 
 void Sphere::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
@@ -58,9 +60,10 @@ void Sphere::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 	model1.scale(radius);
 	model2.translate(pos);
 	model = model2 * model1;
-	QMatrix4x4 mvp = proj_ * view_* model;
+	QMatrix4x4 mv = view_* model;
 	prog->Bind();
-	prog->SetUniformMat4f("u_MVP", mvp.data());
+	prog->SetUniformMat4f("u_ModelView", mv.data());
+	prog->SetUniformMat4f("u_Proj", proj_.data());
 
 	prog->SetUniform4f("u_Color", color[0], color[1], color[2], color[3]);
 	vao->Bind();

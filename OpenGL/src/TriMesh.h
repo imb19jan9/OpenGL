@@ -3,7 +3,14 @@
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
-class TriMesh : public OpenMesh::TriMesh_ArrayKernelT<OpenMesh::DefaultTraits>
+struct HCCLTraits : public OpenMesh::DefaultTraits
+{
+	VertexAttributes(OpenMesh::Attributes::Normal);
+	FaceAttributes(OpenMesh::Attributes::Normal);
+	EdgeAttributes(0);
+};
+
+class TriMesh : public OpenMesh::TriMesh_ArrayKernelT<HCCLTraits>
 {
 private:
 	std::vector<float> vertices;

@@ -9,11 +9,6 @@ void TriMesh::Clear()
 
 bool TriMesh::Read(std::string filePath_)
 {
-	// Add vertex normals as default property (ref. previous tutorial)
-	request_vertex_normals();
-	// Add face normals as default property
-	request_face_normals();
-
 	OpenMesh::IO::Options ropt;
 	if (!OpenMesh::IO::read_mesh(*this, filePath_, ropt)) {
 		std::cerr << "File Open Error: Error loading mesh from file " 
@@ -70,14 +65,20 @@ void TriMesh::Update()
 	vertices.clear();
 	indices.clear();
 
+	update_normals();
+
 	for (TriMesh::VertexIter vit = vertices_begin();
 		vit != vertices_end();
 		vit++) {
 		TriMesh::Point p = point(*vit);
+		TriMesh::Normal n = normal(*vit);
 
 		vertices.push_back(p[0]);
 		vertices.push_back(p[1]);
 		vertices.push_back(p[2]);
+		vertices.push_back(n[0]);
+		vertices.push_back(n[1]);
+		vertices.push_back(n[2]);
 	}
 
 	for (TriMesh::FaceIter fit = faces_begin();

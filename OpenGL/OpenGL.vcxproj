@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\CheckerBoard.cpp" />
     <ClCompile Include="src\FBO.cpp" />
+    <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Test\LDNI.cpp" />
     <ClCompile Include="src\IBO.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\CheckerBoard.h" />
     <ClInclude Include="src\FBO.h" />
     <ClInclude Include="src\IBO.h" />
+    <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\ShaderProgram.h" />
     <QtMoc Include="src\Test\TestMenu.h" />
     <QtMoc Include="src\Test\ClearColor.h">
