@@ -3,6 +3,7 @@
 #include "ClearColor.h"
 #include "Texture2D.h"
 #include "LDNI.h"
+#include "TrackBall.h"
 
 TestMenu::TestMenu(QWidget *parent)
 	: QWidget(parent),
@@ -13,6 +14,7 @@ TestMenu::TestMenu(QWidget *parent)
 	RegisterTest<ClearColor>("Clear Color");
 	RegisterTest<Texture2D>("Texture 2D");
 	RegisterTest<LDNI>("LDNI");
+	RegisterTest<TrackBall>("TrackBall");
 }
 
 TestMenu::~TestMenu()

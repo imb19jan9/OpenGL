@@ -63,6 +63,15 @@
     <ClCompile Include="src\FBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\TrackBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CheckerBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IBO.h">
@@ -89,6 +98,12 @@
     <ClInclude Include="src\FBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CheckerBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\Test\TestMenu.h">
@@ -103,6 +118,9 @@
     <QtMoc Include="src\Test\LDNI.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\Test\TrackBall.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\Test\TestMenu.ui">
@@ -115,6 +133,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\Test\LDNI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\Test\TrackBall.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
