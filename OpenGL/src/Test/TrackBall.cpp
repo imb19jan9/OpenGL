@@ -100,15 +100,12 @@ TrackBall::Screen::Screen(QWidget *parent)
 	moving(3, 50, 25),
 	fixed(3, 50, 25),
 	dragging(false),
-	pivot(0, 0, 0),
 	camDistance(150)
 {
 	tetra.SetColor(QVector4D(1.0, 0.0, 1.0, 1.0));
-	tetra.SetPosition(pivot);
 
 	sphere.SetRadius(radius);
 	sphere.SetColor(QVector4D(1.0, 0.0, 0.0, 0.1));
-	sphere.SetPosition(pivot);
 
 	moving.SetColor(QVector4D(0.0, 1.0, 0.0, 1.0));
 	fixed.SetColor(QVector4D(1.0, 1.0, 0.0, 1.0));
@@ -147,10 +144,9 @@ void TrackBall::Screen::initializeGL()
 
 	path.Init();
 
-	QMatrix4x4 t1, t2;
-	t1.translate(0, 0, camDistance);
-	t2.translate(pivot);
-	view = (t2 * t1).inverted();
+	QMatrix4x4 t1;
+	t1.setColumn(3, QVector4D(0, 0, camDistance, 1));
+	view = t1.inverted();
 	proj.perspective(60, width() / (float)height(), 1, 1000);
 }
 
@@ -219,22 +215,22 @@ void TrackBall::Screen::mouseMoveEvent(QMouseEvent * e_)
 		return;
 
 	QQuaternion delta = QQuaternion::rotationTo(op1, op2);
-	QVector3D axis;
-	float angle;
-	delta.getAxisAndAngle(&axis, &angle);
-	//FIXME : We don't have to compute axis in World Coordinate System.
-	axis = view.inverted().mapVector(axis);
-	delta = QQuaternion::fromAxisAndAngle(axis, -angle);
+
 	currQ = delta * prevQ;
 
 	QMatrix4x4 r, t1, t2;
-	r.rotate(currQ);
+	QMatrix3x3 rot = currQ.toRotationMatrix();
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			r(i, j) = rot(i, j);
+		}
+	}
 	t1.translate(0, 0, camDistance);
-	t2.translate(pivot);
-	view = (t2 * r * t1).inverted();
+	view = t1.inverted() * r;
 
 	CreatePath(pos1, pos2);
 }
+
 void TrackBall::Screen::mouseReleaseEvent(QMouseEvent * e_)
 {
 	update();
@@ -264,7 +260,7 @@ void TrackBall::Screen::CreatePath(QVector3D start_, QVector3D end_)
 		float a = i / (float)PATH_COUNT;
 		QVector3D v = Slerp(start_, end_, a);
 		v.normalize();
-		v = v * radius + pivot;
+		v = v * radius;
 		path.Add(v);
 	}
 }

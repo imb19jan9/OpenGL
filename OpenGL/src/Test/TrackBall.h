@@ -69,7 +69,6 @@ public:
 
 		LineStrip path;
 
-		QVector3D pivot;
 		float camDistance;
 
 	public:
