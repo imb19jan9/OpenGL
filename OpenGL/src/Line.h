@@ -34,3 +34,31 @@ public:
 private:
 	void Update();
 };
+
+class LineStrip
+{
+private:
+	VAO* vao;
+	VBO* vbo;
+
+	ShaderProgram* prog;
+
+	std::vector<float> vertices;
+
+	QVector4D color;
+
+public:
+	LineStrip();
+	~LineStrip();
+
+	void Init();
+	void Draw(QMatrix4x4 view_, QMatrix4x4 proj_);
+
+	void Clear();
+	void Add(QVector3D point_);
+
+	inline void SetColor(QVector4D color_) { color = color_; }
+
+private:
+	void Update();
+};

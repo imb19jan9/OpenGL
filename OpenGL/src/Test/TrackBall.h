@@ -11,6 +11,7 @@
 #include "ShaderProgram.h"
 #include "Sphere.h"
 #include "Line.h"
+#include "Axis.h"
 
 namespace Ui { class TrackBall; };
 
@@ -56,6 +57,7 @@ public:
 		QMatrix4x4 view, proj;
 		QQuaternion prevQ, currQ;
 
+		Axis axis;
 		Tetrahedron tetra;
 		Sphere sphere;
 		float radius;
@@ -64,6 +66,8 @@ public:
 		Sphere moving, fixed;
 		Line toMoving, toFixed;
 		bool dragging;
+
+		LineStrip path;
 
 		QVector3D pivot;
 		float camDistance;
@@ -80,6 +84,9 @@ public:
 		void mouseReleaseEvent(QMouseEvent* e_);
 
 		QVector3D OnTrackBall(QPoint p_);
+
+		void CreatePath(QVector3D start_, QVector3D end_);
+		QVector3D Slerp(const QVector3D & from, const QVector3D & to, float alpha);
 	};
 
 public:

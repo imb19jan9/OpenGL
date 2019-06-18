@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Axis.cpp" />
     <ClCompile Include="src\CheckerBoard.cpp" />
     <ClCompile Include="src\FBO.cpp" />
     <ClCompile Include="src\Line.cpp" />
@@ -38,6 +39,7 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Dependencies\OpenMesh-6.3\src;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Dependencies\OpenMesh-6.3\src;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
     </QtMoc>
+    <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\CheckerBoard.h" />
     <ClInclude Include="src\FBO.h" />
     <ClInclude Include="src\IBO.h" />

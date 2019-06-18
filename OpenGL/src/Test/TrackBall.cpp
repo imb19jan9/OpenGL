@@ -93,13 +93,14 @@ TrackBall::~TrackBall()
 
 TrackBall::Screen::Screen(QWidget *parent)
 	: QOpenGLWidget(parent),
+	axis(25),
 	tetra(15),
 	sphere(50, 25),
+	radius(50.f),
 	moving(3, 50, 25),
 	fixed(3, 50, 25),
 	dragging(false),
-	radius(30.f),
-	pivot(50, 50, 0),
+	pivot(0, 0, 0),
 	camDistance(150)
 {
 	tetra.SetColor(QVector4D(1.0, 0.0, 1.0, 1.0));
@@ -113,6 +114,8 @@ TrackBall::Screen::Screen(QWidget *parent)
 	fixed.SetColor(QVector4D(1.0, 1.0, 0.0, 1.0));
 	toMoving.SetColor(QVector4D(0.0, 0.0, 0.0, 1.0));
 	toFixed.SetColor(QVector4D(0.0, 0.0, 0.0, 1.0));
+
+	path.SetColor(QVector4D(0.0, 1.0, 1.0, 1.0));
 
 	setMouseTracking(true);
 }
@@ -132,19 +135,22 @@ void TrackBall::Screen::initializeGL()
 	f->glEnable(GL_CULL_FACE);
 	f->glCullFace(GL_BACK);
 
+	axis.Init();
+
 	tetra.Init();
 	sphere.Init();
+
 	moving.Init();
 	fixed.Init();
 	toMoving.Init();
 	toFixed.Init();
-	f->glLineWidth(5);
 
-	QMatrix4x4 r, t1, t2;
-	r.rotate(currQ);
+	path.Init();
+
+	QMatrix4x4 t1, t2;
 	t1.translate(0, 0, camDistance);
 	t2.translate(pivot);
-	view = (t2 * r * t1).inverted();
+	view = (t2 * t1).inverted();
 	proj.perspective(60, width() / (float)height(), 1, 1000);
 }
 
@@ -156,17 +162,17 @@ void TrackBall::Screen::paintGL()
 	f->glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 	f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	QMatrix4x4 t1, t2;
-	t1.translate(0, 0, camDistance);
-	t2.translate(pivot);
-	QMatrix4x4 t2t1 = (t2 * t1).inverted();
-	moving.Draw(t2t1, proj);
-	toMoving.Draw(t2t1, proj);
-	if (dragging) {
-		fixed.Draw(t2t1, proj);
-		toFixed.Draw(t2t1, proj);
-	}
+	axis.Draw(view, proj);
 
+	QMatrix4x4 identity;
+	moving.Draw(identity, proj);
+	toMoving.Draw(identity, proj);
+	if (dragging) {
+		fixed.Draw(identity, proj);
+		toFixed.Draw(identity, proj);
+		path.Draw(identity, proj);
+	}
+	
 	tetra.Draw(view, proj);
 	sphere.Draw(view, proj);
 }
@@ -181,16 +187,15 @@ void TrackBall::Screen::mousePressEvent(QMouseEvent * e_)
 	clicked = e_->pos();
 	clicked.setY(height() - 1 - clicked.y());
 
-	QVector3D op1 = OnTrackBall(clicked);
-	QVector3D pos = op1 * radius + pivot;
+	QVector3D op = OnTrackBall(clicked);
+	QVector3D pos = op * radius + QVector3D(0, 0, -camDistance);
 	fixed.SetPosition(pos);
 
 	toFixed.Clear();
-	toFixed.AddSegment(pivot, pos);
-
-	prevQ = currQ;
+	toFixed.AddSegment(QVector3D(0, 0, -camDistance), pos);
 
 	dragging = true;
+	prevQ = currQ;
 }
 
 void TrackBall::Screen::mouseMoveEvent(QMouseEvent * e_)
@@ -203,17 +208,23 @@ void TrackBall::Screen::mouseMoveEvent(QMouseEvent * e_)
 
 	QVector3D op1 = OnTrackBall(clicked);
 	QVector3D op2 = OnTrackBall(cursor);
-	QVector3D pos = op2 * radius + pivot;
-	moving.SetPosition(pos);
+	QVector3D pos1 = op1 * radius + QVector3D(0, 0, -camDistance);
+	QVector3D pos2 = op2 * radius + QVector3D(0, 0, -camDistance);
+	moving.SetPosition(pos2);
 
 	toMoving.Clear();
-	toMoving.AddSegment(pivot, pos);
+	toMoving.AddSegment(QVector3D(0, 0, -camDistance), pos2);
 
 	if (!dragging)
 		return;
 
 	QQuaternion delta = QQuaternion::rotationTo(op1, op2);
-
+	QVector3D axis;
+	float angle;
+	delta.getAxisAndAngle(&axis, &angle);
+	//FIXME : We don't have to compute axis in World Coordinate System.
+	axis = view.inverted().mapVector(axis);
+	delta = QQuaternion::fromAxisAndAngle(axis, -angle);
 	currQ = delta * prevQ;
 
 	QMatrix4x4 r, t1, t2;
@@ -221,10 +232,12 @@ void TrackBall::Screen::mouseMoveEvent(QMouseEvent * e_)
 	t1.translate(0, 0, camDistance);
 	t2.translate(pivot);
 	view = (t2 * r * t1).inverted();
+
+	CreatePath(pos1, pos2);
 }
 void TrackBall::Screen::mouseReleaseEvent(QMouseEvent * e_)
 {
-	makeCurrent();
+	update();
 
 	dragging = false;
 }
@@ -240,4 +253,35 @@ QVector3D TrackBall::Screen::OnTrackBall(QPoint p_)
 	v.normalize();
 
 	return v;
+}
+
+void TrackBall::Screen::CreatePath(QVector3D start_, QVector3D end_)
+{
+	path.Clear();
+
+	const int PATH_COUNT = 30;
+	for (int i = 0; i < PATH_COUNT; i++) {
+		float a = i / (float)PATH_COUNT;
+		QVector3D v = Slerp(start_, end_, a);
+		v.normalize();
+		v = v * radius + pivot;
+		path.Add(v);
+	}
+}
+
+QVector3D TrackBall::Screen::Slerp(const QVector3D& from, const QVector3D& to, float alpha)
+{
+	// determine the angle between
+	//@@ FIXME: handle if angle is ~180 degree
+	//float dot = from.dot(to);
+	float cosine = QVector3D::dotProduct(from, to) / (from.length() * to.length());
+	float angle = acosf(cosine);
+	float invSine = 1.0f / sinf(angle);
+
+	// compute the scale factors
+	float scale1 = sinf((1 - alpha)*angle) * invSine;
+	float scale2 = sinf(alpha*angle) * invSine;
+
+	// compute slerp-ed vector
+	return scale1 * from + scale2 * to;
 }
