@@ -107,7 +107,7 @@ void LineStrip::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
 		versionFunctions<QOpenGLFunctions_4_5_Core>();
 
-	f->glLineWidth(5);
+	f->glLineWidth(10);
 
 	QMatrix4x4 mvp = proj_ * view_;
 

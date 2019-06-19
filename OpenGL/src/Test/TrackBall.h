@@ -85,7 +85,6 @@ public:
 		QVector3D OnTrackBall(QPoint p_);
 
 		void CreatePath(QVector3D start_, QVector3D end_);
-		QVector3D Slerp(const QVector3D & from, const QVector3D & to, float alpha);
 	};
 
 public:

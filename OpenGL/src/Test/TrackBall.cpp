@@ -128,9 +128,16 @@ void TrackBall::Screen::initializeGL()
 		versionFunctions<QOpenGLFunctions_4_5_Core>();
 	f->glEnable(GL_DEPTH_TEST);
 	f->glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	f->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	f->glEnable(GL_CULL_FACE);
 	f->glCullFace(GL_BACK);
+
+	GLfloat lineWidthRange[2] = { 0.0f, 0.0f };
+	GLfloat lineWidthRange2[2] = { 0.0f, 0.0f };
+	f->glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
+	f->glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, lineWidthRange2);
+	std::cout << lineWidthRange[0] << lineWidthRange[1] << std::endl;
+	std::cout << lineWidthRange2[0] << lineWidthRange2[1] << std::endl;
 
 	axis.Init();
 
@@ -228,7 +235,7 @@ void TrackBall::Screen::mouseMoveEvent(QMouseEvent * e_)
 	t1.translate(0, 0, camDistance);
 	view = t1.inverted() * r;
 
-	CreatePath(pos1, pos2);
+	CreatePath(op1, op2);
 }
 
 void TrackBall::Screen::mouseReleaseEvent(QMouseEvent * e_)
@@ -255,29 +262,15 @@ void TrackBall::Screen::CreatePath(QVector3D start_, QVector3D end_)
 {
 	path.Clear();
 
+	QQuaternion delta = QQuaternion::rotationTo(start_, end_);
+
 	const int PATH_COUNT = 30;
 	for (int i = 0; i < PATH_COUNT; i++) {
 		float a = i / (float)PATH_COUNT;
-		QVector3D v = Slerp(start_, end_, a);
-		v.normalize();
-		v = v * radius;
-		path.Add(v);
+		QQuaternion qq = QQuaternion::slerp(QQuaternion(), delta, a);
+		QVector3D vec = qq.rotatedVector(start_);
+		vec.normalize();
+		vec = vec * radius + QVector3D(0, 0, -camDistance);
+		path.Add(vec);
 	}
-}
-
-QVector3D TrackBall::Screen::Slerp(const QVector3D& from, const QVector3D& to, float alpha)
-{
-	// determine the angle between
-	//@@ FIXME: handle if angle is ~180 degree
-	//float dot = from.dot(to);
-	float cosine = QVector3D::dotProduct(from, to) / (from.length() * to.length());
-	float angle = acosf(cosine);
-	float invSine = 1.0f / sinf(angle);
-
-	// compute the scale factors
-	float scale1 = sinf((1 - alpha)*angle) * invSine;
-	float scale2 = sinf(alpha*angle) * invSine;
-
-	// compute slerp-ed vector
-	return scale1 * from + scale2 * to;
 }
