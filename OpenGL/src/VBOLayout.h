@@ -14,6 +14,7 @@ struct VBElement {
 		case GL_UNSIGNED_BYTE : return 1;
 		}
 		assert(false);
+		return 0;
 	}
 };
 

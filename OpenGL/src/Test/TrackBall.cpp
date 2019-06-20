@@ -22,15 +22,20 @@ Tetrahedron::~Tetrahedron()
 
 void Tetrahedron::Init()
 {
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+	mesh.GetVertices(vertices, true, false);
+	mesh.GetIndices(indices);
+
 	vao = new VAO;
-	vbo = new VBO(mesh.GetVertices().data(), mesh.GetVertices().size() * sizeof(float));
+	vbo = new VBO(vertices.data(), vertices.size() * sizeof(float));
 
 	VBOLayout layout;
 	layout.Push<float>(3);
 	layout.Push<float>(3);
 	vao->AddBuffer(*vbo, layout);
 
-	ibo = new IBO(mesh.GetIndices().data(), mesh.GetIndices().size());
+	ibo = new IBO(indices.data(), indices.size());
 
 	prog = new ShaderProgram("res/shaders/Phong.vertex",
 		"res/shaders/Phong.fragment");
@@ -59,8 +64,6 @@ void Tetrahedron::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 
 void Tetrahedron::Create()
 {
-	mesh.Clear();
-
 	TriMesh::Point v1(sqrt(8 / 9.0), 0, -1 / 3.0);
 	TriMesh::Point v2(-sqrt(2 / 9.0), sqrt(2 / 3.0), -1 / 3.0);
 	TriMesh::Point v3(-sqrt(2 / 9.0), -sqrt(2 / 3.0), -1 / 3.0);
@@ -75,8 +78,6 @@ void Tetrahedron::Create()
 	mesh.add_face(vh1, vh2, vh4);
 	mesh.add_face(vh2, vh3, vh4);
 	mesh.add_face(vh1, vh4, vh3);
-
-	mesh.Update();
 }
 
 TrackBall::TrackBall(QWidget *menu_)
@@ -131,13 +132,6 @@ void TrackBall::Screen::initializeGL()
 	f->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	f->glEnable(GL_CULL_FACE);
 	f->glCullFace(GL_BACK);
-
-	GLfloat lineWidthRange[2] = { 0.0f, 0.0f };
-	GLfloat lineWidthRange2[2] = { 0.0f, 0.0f };
-	f->glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
-	f->glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, lineWidthRange2);
-	std::cout << lineWidthRange[0] << lineWidthRange[1] << std::endl;
-	std::cout << lineWidthRange2[0] << lineWidthRange2[1] << std::endl;
 
 	axis.Init();
 

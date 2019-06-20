@@ -11,14 +11,13 @@
 class CheckerBoard
 {
 private:
-	VAO *vaoB, *vaoW;
-	VBO *vboB, *vboW;
-	IBO *iboB, *iboW;
+	VAO *vao;
+	VBO *vbo;
+	IBO *ibo;
 	ShaderProgram *prog;
 
-	TriMesh black, white;
+	TriMesh mesh;
 
-	bool initialized;
 	int nx, ny;
 
 public:

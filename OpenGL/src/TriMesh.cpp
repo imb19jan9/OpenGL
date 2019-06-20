@@ -1,12 +1,5 @@
 #include "TriMesh.h"
 
-void TriMesh::Clear()
-{
-	vertices.clear();
-	indices.clear();
-	clear();
-}
-
 bool TriMesh::Read(std::string filePath_)
 {
 	OpenMesh::IO::Options ropt;
@@ -23,28 +16,6 @@ bool TriMesh::Read(std::string filePath_)
 		update_normals();
 	}
 
-	
-	for (TriMesh::VertexIter vit = vertices_begin();
-		vit != vertices_end();
-		vit++) {
-		TriMesh::Point p = point(*vit);
-		
-		vertices.push_back(p[0]);
-		vertices.push_back(p[1]);
-		vertices.push_back(p[2]);
-	}
-	
-	for (TriMesh::FaceIter fit = faces_begin();
-		fit != faces_end();
-		fit++) {
-		for (TriMesh::FVIter fvit = fv_begin(*fit);
-			fvit != fv_end(*fit);
-			fvit++) {
-			int idx = fvit->idx();
-			indices.push_back(fvit->idx());
-		}
-	}
-
 	return true;
 }
 
@@ -59,27 +30,42 @@ bool TriMesh::Write(std::string filePath_)
 
 	return true;
 }
-
-void TriMesh::Update()
+void TriMesh::GetVertices(std::vector<float>& vertices_, 
+	bool includeNormal_, bool includeColor_)
 {
-	vertices.clear();
-	indices.clear();
+	vertices_.clear();
 
-	update_normals();
+	if (includeNormal_)
+		update_normals();
 
 	for (TriMesh::VertexIter vit = vertices_begin();
 		vit != vertices_end();
 		vit++) {
 		TriMesh::Point p = point(*vit);
-		TriMesh::Normal n = normal(*vit);
+		vertices_.push_back(p[0]);
+		vertices_.push_back(p[1]);
+		vertices_.push_back(p[2]);
 
-		vertices.push_back(p[0]);
-		vertices.push_back(p[1]);
-		vertices.push_back(p[2]);
-		vertices.push_back(n[0]);
-		vertices.push_back(n[1]);
-		vertices.push_back(n[2]);
+		if (includeNormal_) {
+			TriMesh::Normal n = normal(*vit);
+			vertices_.push_back(n[0]);
+			vertices_.push_back(n[1]);
+			vertices_.push_back(n[2]);
+		}
+
+		if (includeColor_) {
+			TriMesh::Color c = color(*vit);
+			vertices_.push_back(c[0]);
+			vertices_.push_back(c[1]);
+			vertices_.push_back(c[2]);
+			vertices_.push_back(c[3]);
+		}
 	}
+}
+
+void TriMesh::GetIndices(std::vector<unsigned int>& indices_)
+{
+	indices_.clear();
 
 	for (TriMesh::FaceIter fit = faces_begin();
 		fit != faces_end();
@@ -87,7 +73,7 @@ void TriMesh::Update()
 		for (TriMesh::FVIter fvit = fv_begin(*fit);
 			fvit != fv_end(*fit);
 			fvit++) {
-			indices.push_back(fvit->idx());
+			indices_.push_back(fvit->idx());
 		}
 	}
 }

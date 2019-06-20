@@ -3,14 +3,10 @@
 #include "VBOLayout.h"
 
 CheckerBoard::CheckerBoard(int nx_, int ny_)
-	: vaoB(0),
-	vboB(0),
-	iboB(0),
-	vaoW(0),
-	vboW(0),
-	iboW(0),
+	: vao(0),
+	vbo(0),
+	ibo(0),
 	prog(0),
-	initialized(0),
 	nx(nx_),
 	ny(ny_)
 {
@@ -19,43 +15,35 @@ CheckerBoard::CheckerBoard(int nx_, int ny_)
 
 CheckerBoard::~CheckerBoard()
 {
-	delete vaoB;
-	delete vboB;
-	delete iboB;
-
-	delete vaoW;
-	delete vboW;
-	delete iboW;
+	delete vao;
+	delete vbo;
+	delete ibo;
 
 	delete prog;
 }
 
 void CheckerBoard::Init()
 {
-	initialized = true;
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+	mesh.GetVertices(vertices, false, true);
+	mesh.GetIndices(indices);
 
-	vaoB = new VAO;
-	vboB = new VBO(black.GetVertices().data(), black.GetVertices().size() * sizeof(float));
-	iboB = new IBO(black.GetIndices().data(), black.GetIndices().size());
-
-	vaoW = new VAO;
-	vboW = new VBO(white.GetVertices().data(), white.GetVertices().size() * sizeof(float));
-	iboW = new IBO(white.GetIndices().data(), white.GetIndices().size());
+	vao = new VAO;
+	vbo = new VBO(vertices.data(), vertices.size() * sizeof(float));
+	ibo = new IBO(indices.data(), indices.size());
 
 	VBOLayout layout;
 	layout.Push<float>(3);
-	vaoB->AddBuffer(*vboB, layout);
-	vaoW->AddBuffer(*vboW, layout);
+	layout.Push<float>(4);
+	vao->AddBuffer(*vbo, layout);
 
-	prog = new ShaderProgram("res/shaders/BasicColor.vertex", 
-		"res/shaders/BasicColor.fragment");
+	prog = new ShaderProgram("res/shaders/BasicVertexColor.vertex", 
+		"res/shaders/BasicVertexColor.fragment");
 }
 
 void CheckerBoard::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 {
-	if (!initialized)
-		return;
-
 	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
 		versionFunctions<QOpenGLFunctions_4_5_Core>();
 
@@ -63,15 +51,9 @@ void CheckerBoard::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 	prog->Bind();
 	prog->SetUniformMat4f("u_MVP", mvp.data());
 
-	prog->SetUniform4f("u_Color", 0.0f, 0.0f, 0.0f, 1.0f);
-	vaoB->Bind();
-	iboB->Bind();
-	f->glDrawElements(GL_TRIANGLES, iboB->GetCount(), GL_UNSIGNED_INT, 0);
-
-	prog->SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
-	vaoW->Bind();
-	iboW->Bind();
-	f->glDrawElements(GL_TRIANGLES, iboW->GetCount(), GL_UNSIGNED_INT, 0);
+	vbo->Bind();
+	ibo->Bind();
+	f->glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, 0);
 }
 
 void CheckerBoard::Create()
@@ -86,26 +68,27 @@ void CheckerBoard::Create()
 
 			std::vector< TriMesh::VertexHandle> vhs;
 			if ((i + j) % 2 != 0) {
-				vhs.push_back(black.add_vertex(p0));
-				vhs.push_back(black.add_vertex(p1));
-				vhs.push_back(black.add_vertex(p2));
-				vhs.push_back(black.add_vertex(p3));
+				vhs.push_back(mesh.add_vertex(p0));
+				vhs.push_back(mesh.add_vertex(p1));
+				vhs.push_back(mesh.add_vertex(p2));
+				vhs.push_back(mesh.add_vertex(p3));
+				for(int k = 0; k < 4; k++)
+					mesh.set_color(vhs[k], TriMesh::Color(0, 0, 0, 1));
 
-				black.add_face(vhs[0], vhs[1], vhs[2]);
-				black.add_face(vhs[2], vhs[3], vhs[0]);
+				mesh.add_face(vhs[0], vhs[1], vhs[2]);
+				mesh.add_face(vhs[2], vhs[3], vhs[0]);
 			}
 			else {
-				vhs.push_back(white.add_vertex(p0));
-				vhs.push_back(white.add_vertex(p1));
-				vhs.push_back(white.add_vertex(p2));
-				vhs.push_back(white.add_vertex(p3));
+				vhs.push_back(mesh.add_vertex(p0));
+				vhs.push_back(mesh.add_vertex(p1));
+				vhs.push_back(mesh.add_vertex(p2));
+				vhs.push_back(mesh.add_vertex(p3));
+				for (int k = 0; k < 4; k++)
+					mesh.set_color(vhs[k], TriMesh::Color(1, 1, 1, 1));
 				
-				white.add_face(vhs[0], vhs[1], vhs[2]);
-				white.add_face(vhs[2], vhs[3], vhs[0]);
+				mesh.add_face(vhs[0], vhs[1], vhs[2]);
+				mesh.add_face(vhs[2], vhs[3], vhs[0]);
 			}
 		}
 	}
-
-	black.Update();
-	white.Update();
 }

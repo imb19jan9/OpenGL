@@ -37,15 +37,19 @@ Sphere::~Sphere()
 
 void Sphere::Init()
 {
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+	mesh.GetVertices(vertices, true, false);
+	mesh.GetIndices(indices);
+
 	vao = new VAO;
-
-	vbo = new VBO(mesh.GetVertices().data(), sizeof(float)*mesh.GetVertices().size());
-	ibo = new IBO(mesh.GetIndices().data(), mesh.GetIndices().size());
-
+	vbo = new VBO(vertices.data(), vertices.size() * sizeof(float));
 	VBOLayout layout;
 	layout.Push<float>(3);
 	layout.Push<float>(3);
 	vao->AddBuffer(*vbo, layout);
+
+	ibo = new IBO(indices.data(), indices.size());
 
 	prog = new ShaderProgram("res/shaders/Phong.vertex",
 		"res/shaders/Phong.fragment");
@@ -73,8 +77,6 @@ void Sphere::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 
 void Sphere::BuildMesh()
 {
-	mesh.Clear();
-
 	float stackStep = M_PI / stackCount;
 	float sectorStep = 2 * M_PI / sectorCount;
 
@@ -115,6 +117,4 @@ void Sphere::BuildMesh()
 			}
 		}
 	}
-
-	mesh.Update();
 }

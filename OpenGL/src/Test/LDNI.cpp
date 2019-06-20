@@ -103,13 +103,18 @@ void LDNI::Screen::LoadMesh(const std::string & filePath_)
 	delete vbo;
 	delete ibo;
 
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+	mesh.GetVertices(vertices, false, false);
+	mesh.GetIndices(indices);
+
 	vao = new VAO;
-	vbo = new VBO(mesh.GetVertices().data(), mesh.GetVertices().size() * sizeof(float));
+	vbo = new VBO(vertices.data(), vertices.size() * sizeof(float));
 	VBOLayout layout;
 	layout.Push<float>(3);
 	vao->AddBuffer(*vbo, layout);
 
-	ibo = new IBO(mesh.GetIndices().data(), mesh.GetIndices().size());
+	ibo = new IBO(indices.data(), indices.size());
 }
 
 void LDNI::Screen::RunLDNI()
