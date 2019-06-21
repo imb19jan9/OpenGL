@@ -4,6 +4,7 @@
 #include "Texture2D.h"
 #include "LDNI.h"
 #include "TrackBall.h"
+#include "Viewer3D.h"
 
 TestMenu::TestMenu(QWidget *parent)
 	: QWidget(parent),
@@ -15,6 +16,7 @@ TestMenu::TestMenu(QWidget *parent)
 	RegisterTest<Texture2D>("Texture 2D");
 	RegisterTest<LDNI>("LDNI");
 	RegisterTest<TrackBall>("TrackBall");
+	RegisterTest<Viewer3D>("Viewer 3D");
 }
 
 TestMenu::~TestMenu()

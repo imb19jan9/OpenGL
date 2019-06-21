@@ -116,3 +116,47 @@ int ShaderProgram::GetUniformLocation(const std::string & name_)
 	uniformLocationCache[name_] = location;
 	return location;
 }
+
+PhongShader::PhongShader()
+	: ShaderProgram("res/shaders/Phong.vertex",
+		"res/shaders/Phong.fragment")
+{
+
+}
+
+void PhongShader::Predraw(QMatrix4x4 view_, QMatrix4x4 proj_, Model3D & model_)
+{
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
+		versionFunctions<QOpenGLFunctions_4_5_Core>();
+
+	QMatrix4x4 modelMatrix = model_.ModelMatrix();
+	QMatrix4x4 mv = view_ * modelMatrix;
+
+	QVector4D color = model_.GetColor();
+
+	Bind();
+	SetUniformMat4f("u_ModelView", mv.data());
+	SetUniformMat4f("u_Proj", proj_.data());
+	SetUniform4f("u_Color", color[0], color[1], color[2], color[3]);
+}
+
+SolidColorShader::SolidColorShader()
+	: ShaderProgram("res/shaders/BasicColor.vertex",
+		"res/shaders/BasicColor.fragment")
+{
+}
+
+void SolidColorShader::Predraw(QMatrix4x4 view_, QMatrix4x4 proj_, Model3D & model_)
+{
+	QOpenGLFunctions_4_5_Core *f = QOpenGLContext::currentContext()->
+		versionFunctions<QOpenGLFunctions_4_5_Core>();
+
+	QMatrix4x4 modelMatrix = model_.ModelMatrix();
+	QMatrix4x4 mvp = proj_ * view_ * modelMatrix;
+
+	QVector4D color = model_.GetColor();
+
+	Bind();
+	SetUniformMat4f("u_MVP", mvp.data());
+	SetUniform4f("u_Color", color[0], color[1], color[2], color[3]);
+}

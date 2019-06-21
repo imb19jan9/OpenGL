@@ -2,6 +2,9 @@
 
 #include <string>
 #include <unordered_map>
+#include <QMatrix4x4>
+
+#include "Model3D.h"
 
 class ShaderProgram {
 private:
@@ -11,6 +14,8 @@ private:
 public:
 	ShaderProgram(const std::string& vsFilePath_, const std::string& fsFilePath_);
 	~ShaderProgram();
+
+	virtual void Predraw(QMatrix4x4 view_, QMatrix4x4 proj_, Model3D& model_) {}
 
 	void Bind() const;
 	void Unbind() const;
@@ -25,4 +30,22 @@ private:
 	unsigned int CreateShaderProgram(std::string vs_, std::string fs_);
 
 	int GetUniformLocation(const std::string& name_);
+};
+
+class PhongShader : public ShaderProgram
+{
+public:
+	PhongShader();
+	~PhongShader() {}
+
+	virtual void Predraw(QMatrix4x4 view_, QMatrix4x4 proj_, Model3D& model_);
+};
+
+class SolidColorShader : public ShaderProgram
+{
+public:
+	SolidColorShader();
+	~SolidColorShader() {}
+
+	virtual void Predraw(QMatrix4x4 view_, QMatrix4x4 proj_, Model3D& model_);
 };
