@@ -51,7 +51,7 @@ void CheckerBoard::Draw(QMatrix4x4 view_, QMatrix4x4 proj_)
 	prog->Bind();
 	prog->SetUniformMat4f("u_MVP", mvp.data());
 
-	vbo->Bind();
+	vao->Bind();
 	ibo->Bind();
 	f->glDrawElements(GL_TRIANGLES, ibo->GetCount(), GL_UNSIGNED_INT, 0);
 }

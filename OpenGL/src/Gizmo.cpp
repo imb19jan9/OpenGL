@@ -81,7 +81,6 @@ GizmoFrame::~GizmoFrame()
 void GizmoFrame::Followed(qglviewer::Frame & frame_)
 {
 	followers.push_back(&frame_);
-	std::cout << "followers size : " << followers.size() << std::endl;
 }
 
 void GizmoFrame::UnFollowed(qglviewer::Frame & frame_)
@@ -90,7 +89,6 @@ void GizmoFrame::UnFollowed(qglviewer::Frame & frame_)
 	if (it != followers.end()) { 
 		followers.erase(it); 
 	}
-	std::cout << "followers size : " << followers.size() << std::endl;
 }
 
 void GizmoFrame::TranslateFollowers(qglviewer::Vec t_)
