@@ -48,22 +48,10 @@
     <ClCompile Include="src\Test\TestMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test\ClearColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test\Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test\LDNI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\TriMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\FBO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test\TrackBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CheckerBoard.cpp">
@@ -75,16 +63,46 @@
     <ClCompile Include="src\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Axis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test\Viewer3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Gizmo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\ClearColor\ClearColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\ClearColor\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\TrackBall\TrackBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\TrackBall\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\TrackBall\Tetrahedron.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Viewer3D\Viewer3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Viewer3D\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Texture2D\Texture2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Texture2D\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Ldni\Ldni.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Ldni\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\TrackBall\Axis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,13 +140,31 @@
     <ClInclude Include="src\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Axis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Gizmo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\ClearColor\Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\TrackBall\Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\TrackBall\Tetrahedron.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\Viewer3D\Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\Texture2D\Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\Ldni\Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\TrackBall\Axis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -136,19 +172,19 @@
     <QtMoc Include="src\Test\TestMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\Test\ClearColor.h">
+    <QtMoc Include="src\Test\ClearColor\ClearColor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\Test\Texture2D.h">
+    <QtMoc Include="src\Test\TrackBall\TrackBall.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\Test\LDNI.h">
+    <QtMoc Include="src\Test\Viewer3D\Viewer3D.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\Test\TrackBall.h">
+    <QtMoc Include="src\Test\Texture2D\Texture2D.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\Test\Viewer3D.h">
+    <QtMoc Include="src\Test\Ldni\Ldni.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -156,19 +192,19 @@
     <QtUic Include="src\Test\TestMenu.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\Test\ClearColor.ui">
+    <QtUic Include="src\Test\ClearColor\ClearColor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\Test\Texture2D.ui">
+    <QtUic Include="src\Test\TrackBall\TrackBall.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\Test\LDNI.ui">
+    <QtUic Include="src\Test\Viewer3D\Viewer3D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\Test\TrackBall.ui">
+    <QtUic Include="src\Test\Texture2D\Texture2D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\Test\Viewer3D.ui">
+    <QtUic Include="src\Test\Ldni\Ldni.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

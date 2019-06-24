@@ -11,38 +11,52 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\Test\TrackBall\Axis.cpp" />
     <ClCompile Include="src\CheckerBoard.cpp" />
     <ClCompile Include="src\FBO.cpp" />
     <ClCompile Include="src\Gizmo.cpp" />
     <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\Model3D.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
-    <ClCompile Include="src\Test\LDNI.cpp" />
+    <ClCompile Include="src\Test\ClearColor\Screen.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="src\IBO.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
-    <ClCompile Include="src\Test\ClearColor.cpp" />
+    <ClCompile Include="src\Test\ClearColor\ClearColor.cpp" />
+    <ClCompile Include="src\Test\Ldni\Ldni.cpp" />
+    <ClCompile Include="src\Test\Ldni\Screen.cpp" />
     <ClCompile Include="src\Test\TestMenu.cpp" />
-    <ClCompile Include="src\Test\Texture2D.cpp" />
-    <ClCompile Include="src\Test\Viewer3D.cpp" />
+    <ClCompile Include="src\Test\Texture2D\Screen.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\Test\Texture2D\Texture2D.cpp" />
+    <ClCompile Include="src\Test\TrackBall\Screen.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\Test\TrackBall\Tetrahedron.cpp" />
+    <ClCompile Include="src\Test\Viewer3D\Screen.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\Test\Viewer3D\Viewer3D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TriMesh.cpp" />
     <ClCompile Include="src\VAO.cpp" />
     <ClCompile Include="src\VBO.cpp" />
     <ClCompile Include="src\VBOLayout.cpp" />
-    <ClCompile Include="src\Test\TrackBall.cpp" />
+    <ClCompile Include="src\Test\TrackBall\TrackBall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\Test\TrackBall.h">
+    <QtMoc Include="src\Test\TrackBall\TrackBall.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
     </QtMoc>
-    <QtMoc Include="src\Test\LDNI.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Dependencies\OpenMesh-6.3\src;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Dependencies\OpenMesh-6.3\src;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
-    </QtMoc>
-    <ClInclude Include="src\Axis.h" />
+    <ClInclude Include="src\Test\TrackBall\Axis.h" />
     <ClInclude Include="src\CheckerBoard.h" />
     <ClInclude Include="src\FBO.h" />
     <ClInclude Include="src\Gizmo.h" />
@@ -51,19 +65,29 @@
     <ClInclude Include="src\Model3D.h" />
     <ClInclude Include="src\ShaderProgram.h" />
     <QtMoc Include="src\Test\TestMenu.h" />
-    <QtMoc Include="src\Test\ClearColor.h">
+    <QtMoc Include="src\Test\ClearColor\ClearColor.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
     </QtMoc>
-    <QtMoc Include="src\Test\Texture2D.h">
+    <QtMoc Include="src\Test\Texture2D\Texture2D.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
     </QtMoc>
     <ClInclude Include="src\Sphere.h" />
-    <QtMoc Include="src\Test\Viewer3D.h">
+    <QtMoc Include="src\Test\Viewer3D\Viewer3D.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test</IncludePath>
     </QtMoc>
+    <ClInclude Include="src\Test\ClearColor\Screen.h" />
+    <QtMoc Include="src\Test\Ldni\Ldni.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Dependencies\QGLViewer-2.7.1\include;$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test;$(QTDIR)\include\QtXml</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Dependencies\QGLViewer-2.7.1\include;$(SolutionDir)Dependencies\OpenCV-4.1.0\include;$(SolutionDir)Dependencies\OpenMesh-8.1\include;.\src;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;.\src\Test;$(QTDIR)\include\QtXml</IncludePath>
+    </QtMoc>
+    <ClInclude Include="src\Test\Ldni\Screen.h" />
+    <ClInclude Include="src\Test\Texture2D\Screen.h" />
+    <ClInclude Include="src\Test\TrackBall\Screen.h" />
+    <ClInclude Include="src\Test\TrackBall\Tetrahedron.h" />
+    <ClInclude Include="src\Test\Viewer3D\Screen.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\TriMesh.h" />
     <ClInclude Include="src\VAO.h" />
@@ -71,12 +95,12 @@
     <ClInclude Include="src\VBOLayout.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\Test\LDNI.ui" />
-    <QtUic Include="src\Test\ClearColor.ui" />
+    <QtUic Include="src\Test\ClearColor\ClearColor.ui" />
+    <QtUic Include="src\Test\Ldni\Ldni.ui" />
     <QtUic Include="src\Test\TestMenu.ui" />
-    <QtUic Include="src\Test\Texture2D.ui" />
-    <QtUic Include="src\Test\TrackBall.ui" />
-    <QtUic Include="src\Test\Viewer3D.ui" />
+    <QtUic Include="src\Test\Texture2D\Texture2D.ui" />
+    <QtUic Include="src\Test\TrackBall\TrackBall.ui" />
+    <QtUic Include="src\Test\Viewer3D\Viewer3D.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

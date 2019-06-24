@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LDNI</class>
- <widget class="QWidget" name="LDNI">
+ <class>Ldni</class>
+ <widget class="QWidget" name="Ldni">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>LDNI</string>
+   <string>Ldni</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -49,7 +49,7 @@
   <customwidget>
    <class>LDNI::Screen</class>
    <extends>QOpenGLWidget</extends>
-   <header>LDNI.h</header>
+   <header>Screen.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

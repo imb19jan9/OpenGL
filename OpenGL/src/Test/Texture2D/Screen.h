@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QWidget>
 #include <QOpenGLWidget>
 #include <QMatrix4x4>
 
@@ -10,15 +9,8 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 
-namespace Ui { class Texture2D; };
-
-class Texture2D : public QWidget
+namespace TEXTURE2D
 {
-	Q_OBJECT
-private:
-	QWidget *menu;
-
-public:
 	class Screen : public QOpenGLWidget
 	{
 	private:
@@ -50,14 +42,4 @@ public:
 		void initializeGL();
 		void paintGL();
 	};
-
-public:
-	Texture2D(QWidget *menu_);
-	~Texture2D();
-
-private:
-	void closeEvent(QCloseEvent* e) { menu->setVisible(true); }
-
-private:
-	Ui::Texture2D *ui;
-};
+}

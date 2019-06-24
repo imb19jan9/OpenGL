@@ -1,26 +1,17 @@
 #pragma once
 
-#include <QWidget>
 #include <QOpenGLWidget>
 #include <QMatrix4x4>
 #include <opencv2\opencv.hpp>
 
-#include "TriMesh.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "IBO.h"
 #include "ShaderProgram.h"
 #include "FBO.h"
 
-namespace Ui { class LDNI; };
-
-class LDNI : public QWidget
+namespace LDNI
 {
-	Q_OBJECT
-private:
-	QWidget *menu;
-
-public:
 	class Screen : public QOpenGLWidget
 	{
 	private:
@@ -51,18 +42,4 @@ public:
 		void initializeGL();
 		void paintGL();
 	};
-
-public:
-	LDNI(QWidget *menu_);
-	~LDNI();
-
-private:
-	void closeEvent(QCloseEvent* e) { menu->setVisible(true); }
-
-private slots:
-	void LoadMesh();
-	void Run();
-
-private:
-	Ui::LDNI *ui;
-};
+}

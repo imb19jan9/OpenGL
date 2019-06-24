@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QWidget>
 #include <QGLViewer/qglviewer.h>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -9,15 +8,8 @@
 #include "Gizmo.h"
 #include "FBO.h"
 
-namespace Ui { class Viewer3D; };
-
-class Viewer3D : public QWidget
+namespace VIEWER3D
 {
-	Q_OBJECT
-private:
-	QWidget* menu;
-
-public:
 	class Screen : public QGLViewer
 	{
 	public:
@@ -59,18 +51,4 @@ public:
 
 		void ToggleSelection(int idx_);
 	};
-
-public:
-	Viewer3D(QWidget *menu_);
-	~Viewer3D();
-
-private:
-	void closeEvent(QCloseEvent* e) { menu->setVisible(true); }
-	
-private slots:
-	void LoadModel();
-	void GizmoChanged();
-
-private:
-	Ui::Viewer3D *ui;
-};
+}

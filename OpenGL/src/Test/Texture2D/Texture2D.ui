@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TrackBall</class>
- <widget class="QWidget" name="TrackBall">
+ <class>Texture2D</class>
+ <widget class="QWidget" name="Texture2D">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,20 +11,20 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TrackBall</string>
+   <string>Texture2D</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="TrackBall::Screen" name="openGLWidget"/>
+    <widget class="TEXTURE2D::Screen" name="openGLWidget"/>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>TrackBall::Screen</class>
+   <class>TEXTURE2D::Screen</class>
    <extends>QOpenGLWidget</extends>
-   <header>TrackBall.h</header>
+   <header>Screen.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,10 +1,9 @@
 #include "TestMenu.h"
-
-#include "ClearColor.h"
-#include "Texture2D.h"
-#include "LDNI.h"
-#include "TrackBall.h"
-#include "Viewer3D.h"
+#include "ClearColor/ClearColor.h"
+#include "TrackBall/TrackBall.h"
+#include "Texture2D/Texture2D.h"
+#include "Ldni/Ldni.h"
+#include "Viewer3D/Viewer3D.h"
 
 TestMenu::TestMenu(QWidget *parent)
 	: QWidget(parent),
@@ -14,7 +13,7 @@ TestMenu::TestMenu(QWidget *parent)
 
 	RegisterTest<ClearColor>("Clear Color");
 	RegisterTest<Texture2D>("Texture 2D");
-	RegisterTest<LDNI>("LDNI");
+	RegisterTest<Ldni>("LDNI");
 	RegisterTest<TrackBall>("TrackBall");
 	RegisterTest<Viewer3D>("Viewer 3D");
 }

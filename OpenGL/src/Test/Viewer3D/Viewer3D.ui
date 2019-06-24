@@ -60,7 +60,7 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="Viewer3D::Screen" name="openGLWidget">
+    <widget class="VIEWER3D::Screen" name="openGLWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
@@ -74,9 +74,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Viewer3D::Screen</class>
+   <class>VIEWER3D::Screen</class>
    <extends>QOpenGLWidget</extends>
-   <header>Viewer3D.h</header>
+   <header>Screen.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
